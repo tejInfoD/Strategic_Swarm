@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO Meta Tags -->
+    <title>Strategic Swarms: Modeling Portfolio Alignment as an Organic Ecosystem</title>
+    <meta name="description" content="An interactive case study demonstrating how Craig Reynolds' flocking swarm mechanics can visualize multidimensional corporate project portfolios and strategic alignment." />
+    <meta name="keywords" content="portfolio management, strategic alignment, flocking algorithm, swarm intelligence, p5.js, creative coding, interactive visualizer, corporate strategy" />
+    <meta name="author" content="materialoreo & Antigravity" />
+
+    <!-- Open Graph Social Metadata -->
+    <meta property="og:title" content="Strategic Swarms: Modeling Portfolio Alignment as an Organic Ecosystem" />
+    <meta property="og:description" content="Explore how natural swarm mechanics reveal strategic alignment, budget distribution, and operational densities in corporate portfolios." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://editor.p5js.org/materialoreo/sketches/n_YEJHuMJ" />
+
+    <!-- Typography & Stylesheets -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css?family=Outfit:400,600,700,800|Inter:400,500,600,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+    <!-- External Libraries (p5.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.min.js"></script>
+  </head>
+  <body>
+    <!-- Top Site Navigation Header -->
+    <header>
+      <div class="logo" id="site-logo">
+        <div class="logo-icon"></div>
+        <span>STRATEGIC SWARMS</span>
+      </div>
+      <div class="header-nav">
+        <a href="#visualizer-wrapper">Interactive visualizer</a>
+        <a href="#article-body" style="margin-left: 20px;">Read case study</a>
+      </div>
+    </header>
+
+    <!-- Hero Header Title -->
+    <section class="hero">
+      <div class="hero-subtitle">Interactive Case Study</div>
+      <h1 class="hero-title" id="main-hero-title">Modeling Portfolio Alignment as an Organic Ecosystem</h1>
+      <div class="hero-meta">
+        <span>By <strong>materialoreo</strong></span>
+        <span>•</span>
+        <span>May 31, 2026</span>
+        <span>•</span>
+        <span>8 Min Read</span>
+      </div>
+    </section>
+
+    <!-- Main Content Wrapper -->
+    <main>
+      <!-- Core Visualizer Showcase Section -->
+      <section class="visualization-showcase">
+        <div class="visualizer-wrapper" id="visualizer-wrapper">
+          <!-- Floating Interactive Controls Overlays -->
+          <div class="controls-overlay">
+            <!-- View Selector Segmented Buttons -->
+            <div class="controls-group" id="view-controls">
+              <button class="segment-btn active" data-view="Strategy" id="btn-strategy">Strategy</button>
+              <button class="segment-btn" data-view="Benefits" id="btn-benefits">Benefits</button>
+              <button class="segment-btn" data-view="Capability" id="btn-capability">Capability</button>
+              <button class="segment-btn" data-view="Business Unit" id="btn-bu">Business Unit</button>
+            </div>
+
+            <!-- Dynamic Search & Filters Toolbar -->
+            <div class="filter-search-box" id="filters-toolbar">
+              <input type="text" id="search-input" class="filter-input" placeholder="Search projects..." aria-label="Search projects by name" />
+              <label class="filter-toggle" for="active-checkbox">
+                <input type="checkbox" id="active-checkbox" />
+                <span>Active Only</span>
+              </label>
+              
+              <div style="display: flex; align-items: center; gap: 8px; margin-left: 10px; border-left: 1px solid rgba(255, 255, 255, 0.1); padding-left: 10px;">
+                <span id="budget-val-label" style="font-size: 0.8rem; color: var(--accent-gold); font-family: var(--font-display); font-weight: 700; width: 45px;">$100k</span>
+                <input type="range" id="budget-slider" min="5000" max="100000" step="5000" value="100000" style="width: 80px; cursor: pointer;" aria-label="Filter by maximum budget" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating Metrics HUD Widget (Overlay Right) -->
+          <div class="metrics-hud" id="metrics-hud">
+            <div class="hud-title">Portfolio Telemetry</div>
+            
+            <div class="hud-stat">
+              <span class="hud-label">Projects Rendered</span>
+              <span class="hud-value" id="hud-total-count">600</span>
+            </div>
+            
+            <div class="hud-stat">
+              <span class="hud-label">Aggregated Capital</span>
+              <span class="hud-value gold" id="hud-total-budget">$0.00M</span>
+            </div>
+            
+            <div class="hud-stat">
+              <span class="hud-label">Active Portfolio Ratio</span>
+              <span class="hud-value blue" id="hud-active-ratio">0%</span>
+              <div class="hud-progress">
+                <div class="hud-progress-bar" id="hud-active-bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Canvas Drawing Target -->
+          <div class="canvas-container" id="canvas-container"></div>
+
+          <!-- Floating Inspection Details Drawer (Overlay Bottom) -->
+          <div class="inspection-drawer" id="inspection-drawer">
+            <div class="project-details">
+              <span class="project-id-badge" id="proj-id">PRJ-000</span>
+              <h4 id="proj-name">Project Core Sphere</h4>
+              <p class="project-desc" id="proj-desc">Move your cursor over a glowing project particle in the canvas above to inspect its strategic mission, metadata, and status details in real time.</p>
+            </div>
+            <div class="project-stats">
+              <span class="project-budget" id="proj-budget">$0,000</span>
+              <span class="badge-status inactive" id="proj-status">Inactive</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Grid Editorial Content Column + Sidebar -->
+      <div class="editorial-container">
+        <!-- Main Article Editorial -->
+        <article class="article-body" id="article-body">
+          <section class="article-section">
+            <p class="intro-lead">
+              Modern enterprise portfolio management is notoriously complex. With hundreds of initiatives running concurrently across various divisions, executives struggle to answer a fundamental question: <strong>Are our financial resources truly aligned with our core strategic goals?</strong>
+            </p>
+            <p>
+              Traditional static spreadsheets, flat pie charts, and linear Gantt diagrams struggle to convey the dynamic, multidimensional nature of large-scale portfolios. They obscure gaps, isolate interdependencies, and hide resource densities. 
+            </p>
+            <p>
+              To solve this, <strong>Strategic Swarms</strong> borrows a metaphor from biology. By modeling individual projects as self-organizing agents—comparable to bees in a hive or birds in a flock—and mapping their financial weight against corporate axes, we can visualize alignment as an organic, living ecosystem.
+            </p>
+          </section>
+
+          <section class="article-section">
+            <h2 id="swarm-intelligence-title">Swarm Intelligence in Portfolio Alignment</h2>
+            <p>
+              The visualizer above uses a customized kinetic physics engine based on <strong>Craig Reynolds' Flocking Model</strong>. Rather than plotting projects on rigid coordinates, we treat them as active particles that navigate the canvas based on simple steering rules:
+            </p>
+
+            <!-- Grid Explaining Craig Reynolds Flocking Rules -->
+            <div class="physics-rules-grid">
+              <div class="rule-card">
+                <div class="rule-icon">↔️</div>
+                <div class="rule-title">1. Separation</div>
+                <div class="rule-desc">Prevents crowding. Particles push away from neighbors to avoid over-concentration.</div>
+              </div>
+              <div class="rule-card">
+                <div class="rule-icon">↗️</div>
+                <div class="rule-title">2. Alignment</div>
+                <div class="rule-desc">Coordinates vector flow. Particles rotate to fly in harmony with their local swarm.</div>
+              </div>
+              <div class="rule-card">
+                <div class="rule-icon">⚛️</div>
+                <div class="rule-title">3. Cohesion</div>
+                <div class="rule-desc">Encourages clustering. Particles steer toward the center of gravity of nearby projects.</div>
+              </div>
+            </div>
+
+            <p>
+              When a project is added to the system, it is pulled toward its designated column on the X-axis (dependent on the active lens selected) by a simulated <strong>gravitational spring force</strong>.
+            </p>
+            <p>
+              As particles swarm toward their target vectors, separation and cohesion forces interact. This forms organic cluster densities. A wide, thick cluster indicates high investment density in a particular category, while sparsely populated gaps highlight strategic areas that might be underfunded or neglected.
+            </p>
+          </section>
+
+          <section class="article-section">
+            <h2>The Aesthetics of Kinetic Data</h2>
+            <p>
+              This upgraded visualization uses state-of-the-art interactive graphics to deliver premium aesthetic appeal and cognitive clarity:
+            </p>
+            <ul>
+              <li style="margin-bottom: 12px; color: var(--text-secondary);">
+                <strong style="color: var(--text-primary)">Curated Neon Glows</strong>: Active projects glow with a warm amber-gold aura, representing funded, running initiatives. Pipeline and inactive projects are represented as translucent slate-blue particles, showing potential upcoming budget allocations.
+              </li>
+              <li style="margin-bottom: 12px; color: var(--text-secondary);">
+                <strong style="color: var(--text-primary)">Kinetic Motion Trails</strong>: Projects draw smooth, decaying history trails behind them as they travel. When switching lenses, they leave elegant glowing paths across the canvas, demonstrating the visual kinetic energy of transitioning portfolios.
+              </li>
+              <li style="margin-bottom: 12px; color: var(--text-secondary);">
+                <strong style="color: var(--text-primary)">Reactive Turbulence</strong>: Pushing your cursor across the visualizer applies a natural repulsion force, creating dynamic swirls and waves that settle back into perfect alignment, demonstrating the resilience of the ecosystem.
+              </li>
+            </ul>
+          </section>
+
+          <section class="article-section">
+            <h2>Multidimensional Lenses</h2>
+            <p>
+              By selecting the buttons at the top-left of the visualizer, you can instantly pivot the entire 600-project swarm across four critical corporate perspectives:
+            </p>
+            <ol style="margin-left: 20px; color: var(--text-secondary); line-height: 1.8;">
+              <li><strong>Strategy</strong>: Focuses on broad corporate goals (Growth, Efficiency, Innovation, Sustainability).</li>
+              <li><strong>Benefits</strong>: Visualizes what returns the projects deliver (Revenue, Cost Reduction, Customer Satisfaction, Risk Mitigation).</li>
+              <li><strong>Capability</strong>: Highlights which foundational columns are strengthened (Technology, Operations, Finance, Strategy).</li>
+              <li><strong>Business Unit</strong>: Lenses the resource allocation across company segments (Retail, Corporate, Risk, IT).</li>
+            </ol>
+            <p style="margin-top: 15px;">
+              The vertical Y-axis continuously maps the capital allocation (Budget) from $1k to $100k, and particle size scales proportionally. Thus, large particles swarming near the top represent heavy strategic investments, while small particles hovering near the bottom show low-risk auxiliary activities.
+            </p>
+          </section>
+        </article>
+
+        <!-- Sidebar Widgets Column -->
+        <aside class="sidebar">
+          <!-- Portfolio Legend -->
+          <div class="sidebar-widget">
+            <h3 class="widget-title">Visual Legend</h3>
+            <div class="legend-item">
+              <span class="legend-dot active"></span>
+              <span class="legend-label">Active Initiatives (Amber Glow)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot inactive"></span>
+              <span class="legend-label">Pipeline / Inactive (Slate Blue)</span>
+            </div>
+            <div class="legend-item" style="margin-top: 12px;">
+              <span style="font-size: 1.2rem; margin-right: 8px;">🔘</span>
+              <span class="legend-label">Size scales with Budget ($1k-$100k)</span>
+            </div>
+          </div>
+
+          <!-- Strategic Summary Stats -->
+          <div class="sidebar-widget">
+            <h3 class="widget-title">Swarm Diagnostics</h3>
+            <div class="metrics-list">
+              <div class="metric-item">
+                <span class="metric-label">Target Entities</span>
+                <span class="metric-value">600 Projects</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-label">Primary Physics</span>
+                <span class="metric-value">Reynolds Flocking</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-label">Integration Rate</span>
+                <span class="metric-value">60 FPS (Stable)</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-label">Strategic Lenses</span>
+                <span class="metric-value gold">4 Dimensional</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interaction Tips -->
+          <div class="sidebar-widget">
+            <h3 class="widget-title">Quick Controls</h3>
+            <p style="font-size: 0.85rem; line-height: 1.5; color: var(--text-secondary); margin-bottom: 8px;">
+              💡 <strong>Hover to Inspect</strong>: Point your mouse over individual swarming particles to review project names, IDs, exact budgets, and descriptions.
+            </p>
+            <p style="font-size: 0.85rem; line-height: 1.5; color: var(--text-secondary); margin-bottom: 8px;">
+              🔍 <strong>Search & Filter</strong>: Type keywords in the search bar (e.g., "Quantum", "Apex") to focus on specific workstreams and isolate their alignment.
+            </p>
+            <p style="font-size: 0.85rem; line-height: 1.5; color: var(--text-secondary);">
+              ⚙️ <strong>Budget Cutoffs</strong>: Slide the budget slider to dynamically isolate high-value investments from micro-initiatives.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+      <span>© 2026 Strategic Swarms Case Study. Designed for publication-grade business insights.</span>
+      <div class="footer-nav">
+        <a href="#site-logo">Back to top</a>
+        <span>•</span>
+        <a href="https://editor.p5js.org/materialoreo/sketches/n_YEJHuMJ" target="_blank" rel="noopener">Original Sketch Link</a>
+      </div>
+    </footer>
+
+    <!-- Core Scripts Loading -->
+    <script src="mockData.js"></script>
+    <script src="sketch.js"></script>
+  </body>
+</html>
